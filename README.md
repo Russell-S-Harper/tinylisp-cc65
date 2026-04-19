@@ -11,7 +11,7 @@ The source is `tinylisp-float-opt.c` in [Robert van Engelen’s tinylisp](https:
 - `(load file)` load and evaluate `file.lisp`, e.g. `(load 'common)` to load `common.lisp`
 - `(incr var1 var2 ...)` increment variables, mutates in place
 - `(decr var1 var2 ...)` decrement variables, mutates in place
-- `(while (condition) (code1) (code2) ...)` non-recursive loop to run code
+- `(while condition code1 code2 ...)` non-recursive loop to run code
 - `(bye)` end session gracefully as opposed to exiting upon reading `EOF`
 
 I didn’t realize until later that the “extras” in Robert van Engelen’s tinylisp also included a `print` and a `load`, ours are quite similar!

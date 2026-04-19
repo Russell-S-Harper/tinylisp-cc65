@@ -1,4 +1,10 @@
-/* tinylisp-cc65.c for cc65 suite by Russell Harper 2026 adapted from:
+/*
+    Contents: "tinylisp-cc65" C source code
+  Repository: https://github.com/Russell-S-Harper/tinylisp-cc65
+     Contact: russell.s.harper@gmail.com
+*/
+
+/* tinylisp-cc65.c to compile under cc65 and run on 8-bit platforms by Russell Harper 2026 adapted from:
  * tinylisp-float-opt.c with single float precision NaN boxing (optimized version) by Robert A. van Engelen 2022
  *
  * Given memory restrictions in 8-bit platforms, added a few features to make development easier:

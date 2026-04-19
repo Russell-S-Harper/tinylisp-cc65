@@ -1,0 +1,27 @@
+#!/bin/bash
+
+# Set as required
+# XCC=«path-to-cc65-repo»
+# FLT=«path-to-FLT-repo»
+# EMU=«path-to-x16-emulator»
+
+XCC=~/Documents/development/cc65
+FLT=~/Documents/development/FLT
+EMU=~/Documents/development/x16emu_linux-x86_64-r49
+
+# Build LISP.PRG / use -DTRACE to enable tracing
+php $FLT/flt/flt.php -i tinylisp-cc65.c -o tinylisp-cc65-flt.c -x "-DNOTRACE -I $XCC/include -I $FLT/flt"
+$XCC/bin/cc65 -t cx16 -DNOTRACE -I $XCC/include tinylisp-cc65-flt.c
+$XCC/bin/ca65 -t cx16 tinylisp-cc65-flt.s
+$XCC/bin/ld65 -o LISP.PRG -t cx16 tinylisp-cc65-flt.o -L $FLT/flt flt.lib -L $XCC/lib cx16.lib
+
+# Move to the emulator
+mv LISP.PRG $EMU/
+cp *.LISP $EMU/
+
+# Clean up
+rm *-flt.c *.s *.o
+
+# Run the emulator
+cd $EMU
+./x16emu -scale 2 -mhz 8 -prg LISP.PRG -run

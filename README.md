@@ -18,7 +18,7 @@ I didn’t realize until later that the “extras” in Robert van Engelen’s t
 
 There are still some issues, especially within the `lambda` context with `define` and `let*`, not sure why, researching if it’s my error or something already existing. One issue was that programs compiled with GNU `gcc` have their function arguments evaluated from left-to-right, whereas with `cc65` they are evaluated from right-to-left. Given the code has a lot of globals, to be safe, the code was revised to ensure the same order of evaluation.
 
-The build process is complex, so if you want to try it out beforehand you can copy the PRG and sample Lisp files from my Google Drive [share](
+The build process is complex, so if you want to try it out beforehand you can copy the PRG and sample Lisp files from my [Google Drive](
 https://drive.google.com/drive/folders/1QpG756L5m1HsCHO-QX4mNadew2sTPWxh?usp=sharing). Note the Lisp file contents are in uppercase.
 
 ## Samples

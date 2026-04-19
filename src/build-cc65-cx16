@@ -10,12 +10,12 @@ FLT=~/Documents/development/FLT
 EMU=~/Documents/development/x16emu_linux-x86_64-r49
 
 # Build LISP.PRG / use -DTRACE to enable tracing
-php $FLT/flt/flt.php -i tinylisp-cc65.c -o tinylisp-cc65-flt.c -x "-DNOTRACE -I $XCC/include -I $FLT/flt"
-$XCC/bin/cc65 -t cx16 -DNOTRACE -I $XCC/include tinylisp-cc65-flt.c
+php $FLT/flt/flt.php -i tinylisp-cc65.c -o tinylisp-cc65-flt.c -x "-D__CX16__ -DNOTRACE -I $XCC/include -I $FLT/flt"
+$XCC/bin/cc65 -t cx16 -D__CX16__ -DNOTRACE -I $XCC/include tinylisp-cc65-flt.c
 $XCC/bin/ca65 -t cx16 tinylisp-cc65-flt.s
 $XCC/bin/ld65 -o LISP.PRG -t cx16 tinylisp-cc65-flt.o -L $FLT/flt flt.lib -L $XCC/lib cx16.lib
 
-# Move to the emulator
+# Move and copy to the emulator
 mv LISP.PRG $EMU/
 cp *.LISP $EMU/
 

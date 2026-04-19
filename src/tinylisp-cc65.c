@@ -8,7 +8,7 @@
  *    - (load file) load and evaluate file.lisp, e.g. (load 'common) to load common.lisp
  *    - (incr var1 var2 ...) increment variables, mutates in place
  *    - (decr var1 var2 ...) decrement variables, mutates in place
- *    - (while (condition) (code) (code) ...) non-recursive loop to run code
+ *    - (while (condition) (code1) (code2) ...) non-recursive loop to run code
  *    - (bye) end session gracefully, needed because EOF is used for loading files
  */
 
@@ -24,12 +24,19 @@
 #define T(x) (*(I*)&x >> 20)
 #define A    ((char *)cell)
 #define QNAN INT32_MAX       /* Reserved "Quiet NaN" */
-#define BUF  51              /* Buffer to accomodate maximum "L" in characters */
-#ifdef  TRACE
+#define BUF  60              /* Buffer to accomodate maximum "L" in characters and a bit extra */
+
+#if defined(__CX16__)
+#define N    2000            /* CX16 can use high memory */
+#define HMEM ((L *)0xA000)   /* CX16-specific memory definitions */
+#define CTRL ((uint8_t *)0x00)
+#define BANK 0x01
+#elif defined(TRACE)
 #define N    500             /* Tracing takes up a lot of memory so use a smaller N to allow room */
 #else
-#define N    1250            /* N * sizeof(L) should not exceed 1MB less 1 "L", i.e float: 262143 / double: 131071 */
+#define N    1000            /* N * sizeof(L) should not exceed 1MB less 1 "L", i.e float: 262143 / double: 131071 */
 #endif
+
 
 #ifdef  TRACE
 
@@ -148,6 +155,7 @@ L f_load(L t, L *e) {
     if (T(x) != ATOM)
         return err;
     snprintf(f, FILENAME_MAX, "%s.lisp", A + ord(x));
+    /* Swap the input with the new file, easy-peasy! */
     if (i = fopen(f, "r"))
         s_input = i;
     else
@@ -319,7 +327,12 @@ int main() {
 #endif
     T0();
     s_input = stdin;
+#ifdef  __CX16__
+    *CTRL = BANK;
+    cell = HMEM;
+#else
     cell = calloc(N, sizeof(L));
+#endif
     nil = box(NIL, 0);
     err = atom("ERR");
     tru = atom("#t");

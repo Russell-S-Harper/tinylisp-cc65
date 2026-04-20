@@ -1,6 +1,6 @@
 # tinylisp-cc65
 
-tinylisp-cc65 is a port of Robert van Engelen’s tinylisp to compile under cc65 and run on 8-bit platforms.
+tinylisp-cc65 is a port of Robert van Engelen’s tinylisp to compile under cc65 and run on 8-bit platforms. This port brings a working Lisp environment to resource-constrained 8-bit systems, like the Commodore 64 and the Commander X16, where traditional Lisp implementations are too large.
 
 ## About
 
@@ -56,6 +56,10 @@ bye!
 ```
 
 Once some pending issues are resolved, more source files will be provided.
+
+## Build for C64
+
+[in progress - likely won’t have a lot of room!]
 
 ## Build for CX16
 

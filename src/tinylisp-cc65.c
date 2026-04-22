@@ -20,6 +20,7 @@
 
 #include <stdlib.h>
 #include <stdint.h>
+#include <stdbool.h>
 #include <stdio.h>
 #include <inttypes.h>
 #include <string.h>
@@ -29,7 +30,6 @@
 #define L    float
 #define T(x) (*(I*)&x >> 20)
 #define A    ((char *)cell)
-#define QNAN INT32_MAX       /* Reserved "Quiet NaN" */
 #define BUF  60              /* Buffer to accomodate maximum "L" in characters and a bit extra */
 
 #if defined(__CX16__)
@@ -42,7 +42,6 @@
 #else
 #define N    1000            /* N * sizeof(L) should not exceed 1MB less 1 "L", i.e float: 262143 / double: 131071 */
 #endif
-
 
 #ifdef  TRACE
 
@@ -76,6 +75,7 @@ static char *s_t0  = "%s (%d)\n",
 L eval(L x, L e), Read(), parse();
 void print(L t);
 
+bool show_nil;
 I hp = 0, sp = N, ATOM = 0x7FC, PRIM = 0x7FD, CONS = 0x7FE, CLOS = 0x7FF, NIL = 0xFFF;
 L *cell, nil, tru, err, env;
 static FILE *s_input;
@@ -146,8 +146,8 @@ L f_print(L t, L *e) {
             putchar(' ');
     }
     putchar(')');
-    /* Returning QNAN to keep the output "clean" */
-    *(I*)&t = QNAN;
+    /* Hide the returning nil */
+    show_nil = false;
     return t;
 }
 L f_load(L t, L *e) {
@@ -315,9 +315,8 @@ void printlist(L t) {
 void print(L x) {
     I t;
     T1(&x);
-    if (*(I *)&x == QNAN) return;
     t = T(x);
-    if (t == NIL) printf("()");
+    if (t == NIL) { if (show_nil) printf("()"); else show_nil = true; }
     else if (t == ATOM) printf("%s", A + ord(x));
     else if (t == PRIM) printf("<%s>", prim[ord(x)].s);
     else if (t == CONS) printlist(x);
@@ -343,6 +342,7 @@ int main() {
     err = atom("ERR");
     tru = atom("#t");
     env = pair(tru, tru, nil);
+    show_nil = true;
     printf("tinylisp");
     for (i = 0; prim[i].s; ++i) {
         t = atom(prim[i].s);

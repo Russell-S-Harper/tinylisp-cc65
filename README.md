@@ -25,8 +25,9 @@ https://drive.google.com/drive/folders/1QpG756L5m1HsCHO-QX4mNadew2sTPWxh?usp=sha
 
 Some sample source files are provided:
 
-- `CONSTANTS.LISP` provides some numerical constants
-- `MATH.LISP` provides some mathematical functions
+- `CONSTANTS.LISP` – some numerical constants
+- `MATH.LISP` – some mathematical functions
+- `FACTOR.LISP` – factor a number, e.g. `(factor 39767)` –→ `(23 19 13 7 1)`
 
 Here's a session for illustration: loading `math` and finding 29 as a factor of 899. Note that this implementation is definitely not a “speed demon” on the CX16!
 
@@ -54,8 +55,6 @@ i
 1413> (bye)
 bye!
 ```
-
-Once some pending issues are resolved, more source files will be provided.
 
 ## Build for C64
 

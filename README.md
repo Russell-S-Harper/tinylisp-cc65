@@ -27,7 +27,7 @@ Some sample source files are provided:
 
 - `CONSTANTS.LISP` – some numerical constants
 - `MATH.LISP` – some mathematical functions
-- `FACTOR.LISP` – factor a number, e.g. `(factor 39767)` –→ `(23 19 13 7 1)`
+- `FACTOR.LISP` – factor a number, e.g. `(factor 39767)` → `(23 19 13 7 1)`
 
 Here's a session for illustration: loading `math` and finding 29 as a factor of 899. Note that this implementation is definitely not a “speed demon” on the CX16!
 

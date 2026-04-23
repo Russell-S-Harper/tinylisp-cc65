@@ -16,44 +16,51 @@ The source is `tinylisp-float-opt.c` in [Robert van Engelen’s tinylisp](https:
 
 I didn’t realize until later that the “extras” in Robert van Engelen’s tinylisp also included a `print` and a `load`, ours are quite similar!
 
-There are still some issues, especially within the `lambda` context with `define` and `let*`, not sure why, researching if it’s my error or something already existing. One issue was that programs compiled with GNU `gcc` have their function arguments evaluated from left-to-right, whereas with `cc65` they are evaluated from right-to-left. Given the code has a lot of globals, to be safe, the code was revised to ensure the same order of evaluation.
+There are still some issues, especially within the `lambda` context, not sure why, researching if it’s my error or something already existing. One issue was that programs compiled with GNU `gcc` have their function arguments evaluated from left-to-right, whereas with `cc65` they are evaluated from right-to-left. Given the code has a lot of globals, to be safe, the code was revised to ensure the same order of evaluation.
 
 The build process is complex, so if you want to try it out beforehand you can copy the PRG and sample Lisp files from my [Google Drive](
-https://drive.google.com/drive/folders/1QpG756L5m1HsCHO-QX4mNadew2sTPWxh?usp=sharing). Note the Lisp file contents are in uppercase.
+https://drive.google.com/drive/folders/1QpG756L5m1HsCHO-QX4mNadew2sTPWxh?usp=sharing).
 
 ## Samples
 
-Some sample source files are provided:
+Some sample source files are provided, note that the file names and contents are in uppercase:
 
-- `CONSTANTS.LISP` – some numerical constants
-- `MATH.LISP` – some mathematical functions
+- `CONSTANTS.LISP` – some numerical constants, e.g. `(* pi (* 10 10))` → `314.159`
+- `MATH.LISP` – some mathematical functions, e.g. `(gcd 231 847)` → `77`
 - `FACTOR.LISP` – factor a number, e.g. `(factor 39767)` → `(23 19 13 7 1)`
 
-Here's a session for illustration: loading `math` and finding 29 as a factor of 899. Note that this implementation is definitely not a “speed demon” on the CX16!
+Here’s a session for illustration where we’re loading some Lisp files and trying them out. Note that this implementation is definitely not a “speed demon” on the CX16!
 
 ```
 tinylisp
-1857> (load 'math)
-math
-1856> abs
-1813> frac
-1779> truncate
-1767> floor
-1720> ceiling
-1680> round
-1646> mod
-1599> gcd
-1548> lcm
-1505> even?
-1469> odd?
-1434> (define n 899)
-n
-1424> (define i 2)
-i
-1413> (while (< 0 (mod n i)) (incr i))
-29
-1413> (bye)
+1857> (load 'constants)
+constants
+1855> pi
+1844> e
+1834> golden
+1822> sqrt2
+1810> gamma
+1799> (print pi e golden sqrt2 gamma)
+(3.142 2.718 1.618 1.414 0.577)
+1799> (load 'factor)
+factor
+1797> mod
+1749> abs
+1706> lpf
+1609> lpf-x
+1512> factor
+1452> factor-x
+1373> (factor 4101)
+(1367 3 1)
+1373> (factor 19695)
+(101 13 5 3 1)
+1373> (factor -49)
+(7 7 -1 1)
+1373> (factor 19697)
+(19697 1)
+1373> (bye)
 bye!
+
 ```
 
 ## Build for C64

@@ -29,17 +29,17 @@
 #define L    float
 #define T(x) (*(I*)&x >> 20)
 #define A    ((char *)cell)
-#define BUF  60              /* Buffer to accomodate maximum "L" in characters and a bit extra */
+#define BUF  60                /* Buffer to accomodate maximum "L" in characters and a bit extra */
 
 #if defined(__CX16__)
-#define N    2000            /* CX16 can use high memory */
-#define HMEM ((L *)0xA000)   /* CX16-specific memory definitions */
+#define N    2000              /* CX16 can use high memory */
+#define HMEM ((L *)0xA000)     /* CX16-specific memory definitions */
 #define CTRL ((uint8_t *)0x00)
 #define BANK 0x01
 #elif defined(TRACE)
-#define N    500             /* Tracing takes up a lot of memory so use a smaller N to allow room */
+#define N    500               /* Tracing takes up a lot of memory so use a smaller N to allow room */
 #else
-#define N    1000            /* N * sizeof(L) should not exceed 1MB less 1 "L", i.e float: 262143 / double: 131071 */
+#define N    1000              /* N * sizeof(L) should not exceed 1MB less 1 "L", i.e float: 262143 / double: 131071 */
 #endif
 
 #ifdef  TRACE

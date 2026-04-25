@@ -68,7 +68,7 @@ bye!
 
 ### For C64
 
-You’ll need [cc65](https://github.com/cc65/cc65), [FLT](https://github.com/Russell-S-Harper/FLT), and the C64 emulator of your choosing (or actual hardware). Check the repositories if there are any other dependencies and be sure to adhere to the licensing terms to ensure proper usage and compliance.
+You’ll need [cc65](https://github.com/cc65/cc65), [FLT](https://github.com/Russell-S-Harper/FLT), and your preferred C64 emulator (or actual hardware). Check the repositories if there are any other dependencies and be sure to adhere to the licensing terms to ensure proper usage and compliance.
 
 Edit the `«flt-repo»/flt/build-cc65` script to point `XCC` to where the ***cc65*** repo is located, revise `TGT` to `c64`, and run the script to build the `flt.lib` library.
 

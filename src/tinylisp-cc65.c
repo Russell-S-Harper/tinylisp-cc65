@@ -38,6 +38,8 @@
 #define BANK 0x01
 #elif defined(TRACE)
 #define N    500               /* Tracing takes up a lot of memory so use a smaller N to allow room */
+#elif defined(__C64__)
+#define N    1250              /* Use as much free memory as possible */
 #else
 #define N    1000              /* N * sizeof(L) should not exceed 1MB less 1 "L", i.e float: 262143 / double: 131071 */
 #endif

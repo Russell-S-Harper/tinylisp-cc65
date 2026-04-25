@@ -23,14 +23,14 @@ https://drive.google.com/drive/folders/1QpG756L5m1HsCHO-QX4mNadew2sTPWxh?usp=sha
 
 ## Samples
 
-Some sample source files are provided, note that the file names and contents are in uppercase:
+Some sample source files are provided, note that the file names or contents may be in upper or lower case depending on the platform:
 
 - `CONSTANTS.LISP` – some numerical constants, e.g. `(* pi (* 10 10))` → `314.159`
 - `MATH.LISP` – some mathematical functions, e.g. `(gcd 231 847)` → `77`
 - `FACTOR.LISP` – factor a number, e.g. `(factor 39767)` → `(23 19 13 7 1)`
 - `SORT.LISP` – sort a list, e.g. `(sort '(12 8.9 -1000 2.3 -9) <)` → `(-1000 -9 2.3 8.9 12)`
 
-Here’s a session for illustration where we’re loading some Lisp files and trying them out. Note that this implementation is definitely not a “speed demon” on the CX16!
+Here’s a session for illustration where we’re loading some Lisp files and trying them out. Note that this implementation is definitely not a “speed demon”!
 
 ```
 tinylisp
@@ -64,17 +64,24 @@ bye!
 
 ```
 
-## Build for C64
+## Building tinylisp-cc65 Yourself…
 
-[in progress - likely won’t have a lot of room!]
+### For C64
 
-## Build for CX16
+You’ll need [cc65](https://github.com/cc65/cc65), [FLT](https://github.com/Russell-S-Harper/FLT), and the C64 emulator of your choosing (or actual hardware). Check the repositories if there are any other dependencies and be sure to adhere to the licensing terms to ensure proper usage and compliance.
 
-Should you want to build `LISP.PRG` yourself, you’ll need [cc65](https://github.com/cc65/cc65), [FLT](https://github.com/Russell-S-Harper/FLT), and [x16emu](https://github.com/x16community/x16-emulator). Check these repositories if there are any other dependencies. Be sure to adhere to the licensing terms provided in these repositories to ensure proper usage and compliance.
+Edit the `«flt-repo»/flt/build-cc65` script to point `XCC` to where the ***cc65*** repo is located, revise `TGT` to `c64`, and run the script to build the `flt.lib` library.
 
-Edit the `«flt-repo»/flt/build-cc65` script to point `XCC` to where the ***cc65*** repo is located, revise `TGT` as required, and run the script to build the `flt.lib` library.
+Then edit the `«tinylisp-cc65-repo»/src/build-cc65-c64` script to point `XCC` and `FLT` to where the ***cc65*** and ***FLT*** repositories are located, and edit `DST` to point to a destination of your choice. Run the script to create `lisp.prg`. The script will also copy the program and Lisp files to the destination.
 
-Then edit the `«tinylisp-cc65-repo»/src/build-cc65-cx16` script to point `XCC`, `FLT`, and `EMU` to where the ***cc65***, ***FLT*** and ***x16emu*** repositories are located, and run the script to create `LISP.PRG`.
+
+### For CX16
+
+You’ll need [cc65](https://github.com/cc65/cc65), [FLT](https://github.com/Russell-S-Harper/FLT), and [x16emu](https://github.com/x16community/x16-emulator). Check these repositories if there are any other dependencies and be sure to adhere to the licensing terms to ensure proper usage and compliance.
+
+Edit the `«flt-repo»/flt/build-cc65` script to point `XCC` to where the ***cc65*** repo is located, revise `TGT` to `cx16`, and run the script to build the `flt.lib` library.
+
+Then edit the `«tinylisp-cc65-repo»/src/build-cc65-cx16` script to point `XCC`, `FLT`, and `EMU` to where the ***cc65***, ***FLT*** and ***x16emu*** repositories are located, and run the script to create `LISP.PRG`. The script will copy the program and Lisp files to the emulator.
 
 ## License
 

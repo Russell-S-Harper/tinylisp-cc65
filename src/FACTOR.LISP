@@ -5,15 +5,13 @@
             (- 0 N)
             N)))
 (DEFINE LPF (LAMBDA (N)
-    (IF (< (INT N) N)
-        ERR
-        (IF (< N 0)
-            -1
-            (IF (< N 4)
-                N
-                (IF (EQ? 0 (MOD N 2))
-                    2
-                    (LPF-X N 3)))))))
+    (IF (< N 0)
+        -1
+        (IF (< N 4)
+            N
+            (IF (EQ? 0 (MOD N 2))
+                2
+                (LPF-X N 3))))))
 (DEFINE LPF-X (LAMBDA (N I)
     (IF (EQ? 0 (MOD N I))
         I
@@ -23,9 +21,11 @@
                 I
                 N)))))
 (DEFINE FACTOR (LAMBDA (N)
-    (IF (EQ? 1 (ABS N))
-        (CONS N ())
-        (FACTOR-X N (CONS 1 ())))))
+    (IF (NOT (EQ? (INT N) N))
+        ERR
+        (IF (EQ? 1 (ABS N))
+            (CONS N ())
+            (FACTOR-X N (CONS 1 ()))))))
 (DEFINE FACTOR-X (LAMBDA (N F)
     (IF (EQ? N (CAR F))
         F

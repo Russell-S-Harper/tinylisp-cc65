@@ -28,7 +28,7 @@ Some sample source files are provided, note that the file names and contents are
 - `CONSTANTS.LISP` – some numerical constants, e.g. `(* pi (* 10 10))` → `314.159`
 - `MATH.LISP` – some mathematical functions, e.g. `(gcd 231 847)` → `77`
 - `FACTOR.LISP` – factor a number, e.g. `(factor 39767)` → `(23 19 13 7 1)`
-- `SORT.LISP` – sort a list, e.g. `(sort '(12 89 -1000 2.3 -9) <)` → `(-1000 -9 2.3 12 89)`
+- `SORT.LISP` – sort a list, e.g. `(sort '(12 8.9 -1000 2.3 -9) <)` → `(-1000 -9 2.3 8.9 12)`
 
 Here’s a session for illustration where we’re loading some Lisp files and trying them out. Note that this implementation is definitely not a “speed demon” on the CX16!
 

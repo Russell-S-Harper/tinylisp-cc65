@@ -64,7 +64,7 @@ bye!
 
 ```
 
-## Building tinylisp-cc65 Yourself…
+## Building tinylisp-cc65…
 
 ### For C64
 

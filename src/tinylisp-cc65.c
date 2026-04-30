@@ -127,6 +127,7 @@ L f_div(L t, L *e) { I a; L n; T2(&t, e); a = 0; n = evarg(&t, e, &a); while (!n
 L f_int(L t, L *e) { I a; L n; T2(&t, e); a = 0; n = evarg(&t, e, &a); return trunc(n); }
 L f_lt(L t, L *e) { I a; L n; T2(&t, e); a = 0; n = evarg(&t, e, &a); return n - evarg(&t, e, &a) < 0 ? tru : nil; }
 L f_eq(L t, L *e) { I a; L x; T2(&t, e); a = 0; x = evarg(&t, e, &a); return equ(x, evarg(&t, e, &a)) ? tru : nil; }
+L f_atom(L t, L *e) { I a; L x; T2(&t, e); a = 0; x = evarg(&t, e, &a); return T(x) != CONS ? tru : nil; } 
 L f_pair(L t, L *e) { I a; L x; T2(&t, e); a = 0; x = evarg(&t, e, &a); return T(x) == CONS ? tru : nil; }
 L f_not(L t, L *e) { I a; T2(&t, e); a = 0; return not(evarg(&t, e, &a)) ? tru : nil; }
 L f_or(L t, L *e) { I a; L x; T2(&t, e); a = 0; x = nil; while (!not(t) && not(x)) x = evarg(&t, e, &a); return x; }
@@ -227,12 +228,12 @@ L f_bye(L t, L *e) {
 }
 
 struct { const char *s; L (*f)(L, L*); short t; } prim[] = {
-    {"eval",  f_eval,  1}, {"quote", f_quote, 0}, {"cons", f_cons, 0}, {"car",    f_car,    0}, {"cdr",    f_cdr,    0},
-    {"+",     f_add,   0}, {"-",     f_sub,   0}, {"*",    f_mul,  0}, {"/",      f_div,    0}, {"int",    f_int,    0},
-    {"<",     f_lt,    0}, {"eq?",   f_eq,    0}, {"or",   f_or,   0}, {"and",    f_and,    0}, {"not",    f_not,    0},
-    {"cond",  f_cond,  1}, {"if",    f_if,    1}, {"let*", f_leta, 1}, {"lambda", f_lambda, 0}, {"define", f_define, 0},
-    {"pair?", f_pair,  0}, {"print", f_print, 0}, {"load", f_load, 0}, {"incr",   f_incr,   0}, {"decr",   f_decr,   0},
-    {"while", f_while, 1}, {"bye",   f_bye,   0}, {0}
+    {"eval",  f_eval,  1}, {"quote", f_quote, 0}, {"cons",  f_cons,  0}, {"car",    f_car,    0}, {"cdr",    f_cdr,    0},
+    {"+",     f_add,   0}, {"-",     f_sub,   0}, {"*",     f_mul,   0}, {"/",      f_div,    0}, {"int",    f_int,    0},
+    {"<",     f_lt,    0}, {"eq?",   f_eq,    0}, {"or",    f_or,    0}, {"and",    f_and,    0}, {"not",    f_not,    0},
+    {"cond",  f_cond,  1}, {"if",    f_if,    1}, {"let*",  f_leta,  1}, {"lambda", f_lambda, 0}, {"define", f_define, 0},
+    {"atom?", f_atom,  0}, {"pair?", f_pair,  0}, {"print", f_print, 0}, {"load",   f_load,   0}, {"incr",   f_incr,   0},
+    {"decr",  f_decr,  0}, {"while", f_while, 1}, {"bye",   f_bye,   0}, {0}
 };
 
 void assign(L v, L x, L e) { T3(&v, &x, &e); while (!equ(v, car(car(e)))) e = cdr(e); cell[ord(car(e))] = x; }

@@ -29,6 +29,7 @@ Some sample source files are provided, note that the file names or contents may 
 - `MATH.LISP` – some mathematical functions, e.g. `(gcd 231 847)` → `77`
 - `FACTOR.LISP` – factor a number, e.g. `(factor 39767)` → `(23 19 13 7 1)`
 - `SORT.LISP` – sort a list, e.g. `(sort '(12 8.9 -1000 2.3 -9) <)` → `(-1000 -9 2.3 8.9 12)`
+- `LIST.LISP` – various list functions, e.g. `(remove-dups '(1 2 3 4 1 1 2 2 5))` → `(1 2 3 4 5)`
 
 Here’s a session for illustration where we’re loading some Lisp files and trying them out. Note that this implementation is definitely not a “speed demon”!
 

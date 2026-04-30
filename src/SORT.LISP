@@ -1,10 +1,10 @@
 (DEFINE INSERT (LAMBDA (X L P)
-    (IF (EQ? L '())
+    (IF (NOT L)
         (CONS X L)
         (IF (P X (CAR L))
             (CONS X L)
             (CONS (CAR L) (INSERT X (CDR L) P))))))
 (DEFINE SORT (LAMBDA (L P)
-    (IF (EQ? L '())
+    (IF (NOT L)
         L
         (INSERT (CAR L) (SORT (CDR L) P) P))))

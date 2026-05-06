@@ -16,7 +16,7 @@ The source is `tinylisp-float-opt.c` in [Robert van Engelen’s tinylisp](https:
 
 I didn’t realize until later that the “extras” in Robert van Engelen’s tinylisp also included a `print` and a `load`, ours are quite similar!
 
-There are still some issues, especially within the `lambda` context, not sure why, researching if it’s my error or something already existing. One issue was that programs compiled with GNU `gcc` have their function arguments evaluated from left-to-right, whereas with `cc65` they are evaluated from right-to-left. Given the code has a lot of globals, to be safe, the code was revised to ensure the same order of evaluation.
+One issue found during porting was that programs compiled with GNU `gcc` have their function arguments evaluated from left-to-right, whereas with `cc65` they are evaluated from right-to-left. Given the code has a lot of global variables, to be safe, the code was revised to ensure the same order of evaluation.
 
 The build process is complex, so if you want to try it out beforehand you can copy the PRG and sample Lisp files from my [Google Drive](
 https://drive.google.com/drive/folders/1QpG756L5m1HsCHO-QX4mNadew2sTPWxh?usp=sharing).

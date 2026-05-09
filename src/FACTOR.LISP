@@ -1,32 +1,25 @@
 (DEFINE MOD (LAMBDA (N M) (- N (* M (INT (/ N M))))))
-(DEFINE ABS
-    (LAMBDA (N)
-        (IF (< N 0)
-            (- 0 N)
-            N)))
 (DEFINE LPF (LAMBDA (N)
     (IF (< N 0)
         -1
-        (IF (< N 4)
-            N
-            (IF (EQ? 0 (MOD N 2))
-                2
-                (LPF-X N 3))))))
-(DEFINE LPF-X (LAMBDA (N I)
-    (IF (EQ? 0 (MOD N I))
-        I
-        (IF (< (* I I) N)
-            (LPF-X N (+ I 2))
-            (IF (EQ? (* I I) N)
-                I
-                N)))))
+        (IF (EQ? 0 (MOD N 2))
+            2
+            (LET*
+                (F 3)
+                (_ (WHILE (AND (< 0 (MOD N F)) (< (* F F) N)) (INCR F F)))
+                (IF (EQ? 0 (MOD N F))
+                    F
+                    N))))))
 (DEFINE FACTOR (LAMBDA (N)
     (IF (NOT (EQ? (INT N) N))
         ERR
-        (IF (EQ? 1 (ABS N))
+        (IF (OR (EQ? 0 N) (EQ? 1 N))
             (CONS N ())
-            (FACTOR-X N (CONS 1 ()))))))
+            (FACTOR-X N ())))))
 (DEFINE FACTOR-X (LAMBDA (N F)
-    (IF (EQ? N (CAR F))
-        F
-        (FACTOR-X (/ N (CAR F)) (CONS (LPF (/ N (CAR F))) F)))))
+    (LET*
+        (D (IF (NOT F) 1 (CAR F)))
+        (D (/ N D))
+        (IF (EQ? D 1)
+            F
+            (FACTOR-X D (CONS (LPF D) F))))))

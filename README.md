@@ -35,32 +35,30 @@ Here’s a session for illustration where we’re loading some Lisp files and tr
 
 ```
 tinylisp
-1857> (load 'constants)
+1852> (load 'constants)
 constants
-1855> pi
-1844> e
-1834> golden
-1822> sqrt2
-1810> gamma
-1799> (print pi e golden sqrt2 gamma)
+1849> pi
+1839> e
+1828> golden
+1816> sqrt2
+1805> gamma
+1793> (print pi e golden sqrt2 gamma)
 (3.142 2.718 1.618 1.414 0.577)
-1799> (load 'factor)
+1793> (load 'factor)
 factor
-1797> mod
-1749> abs
-1706> lpf
-1609> lpf-x
-1512> factor
-1452> factor-x
-1373> (factor 4101)
-(1367 3 1)
-1373> (factor 19695)
-(101 13 5 3 1)
-1373> (factor -49)
-(7 7 -1 1)
-1373> (factor 19697)
-(19697 1)
-1373> (bye)
+1792> mod
+1744> lpf
+1608> factor
+1522> factor-x
+1430> (factor 4101)
+(1367 3)
+1430> (factor 19695)
+(101 13 5 3)
+1430> (factor -49)
+(7 7 -1)
+1430> (factor 19697)
+(19697)
+1430> (bye)
 bye!
 
 ```

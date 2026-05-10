@@ -6,28 +6,27 @@
     (IF (NOT A)
         B
         (CONS (CAR A) (APPEND (CDR A) B)))))
+(DEFINE REVERSE (LAMBDA (L) (REVERSE-X L ())))
 (DEFINE REVERSE-X (LAMBDA (L A)
     (IF (NOT L)
         A
         (REVERSE-X (CDR L) (CONS (CAR L) A)))))
-(DEFINE REVERSE (LAMBDA (L)
-    (REVERSE-X L '())))
 (DEFINE MEMBER (LAMBDA (X L)
     (IF (NOT L)
         L
         (IF (EQ? X (CAR L))
             L
             (MEMBER X (CDR L))))))
+(DEFINE REMOVE-DUPS (LAMBDA (L)
+    (IF (NOT L)
+        L
+        (CONS (CAR L) (REMOVE-DUPS (REMOVE-ALL (CAR L) (CDR L)))))))
 (DEFINE REMOVE-ALL (LAMBDA (X L)
     (IF (NOT L)
         L
         (IF (EQ? X (CAR L))
             (REMOVE-ALL X (CDR L))
             (CONS (CAR L) (REMOVE-ALL X (CDR L)))))))
-(DEFINE REMOVE-DUPS (LAMBDA (L)
-    (IF (NOT L)
-        L
-        (CONS (CAR L) (REMOVE-DUPS (REMOVE-ALL (CAR L) (CDR L)))))))
 (DEFINE NTH (LAMBDA (N L)
     (IF (EQ? N 0)
         (CAR L)

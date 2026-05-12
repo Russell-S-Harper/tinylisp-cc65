@@ -27,18 +27,19 @@ xform() {
 
 # Build lisp / use -DTRACE to enable tracing
 C=lisp
+L=$(xform $C.$EXT)
 php $FLT/flt/flt.php -i tinylisp-cc65.c -o tinylisp-cc65-flt.c -x "-D__${TGT^^}__ -DNOTRACE -I $XCC/include -I $FLT/flt"
 $XCC/bin/cc65 -t $TGT -D__${TGT^^}__ -DNOTRACE -I $XCC/include tinylisp-cc65-flt.c
 $XCC/bin/ca65 -t $TGT tinylisp-cc65-flt.s
-$XCC/bin/ld65 -o $(xform $C.$EXT) -t $TGT tinylisp-cc65-flt.o -L $FLT/flt flt-$TGT.lib -L $XCC/lib $TGT.lib
-
-# Move and copy to the emulator
-mv $(xform $C.$EXT) $EMU/
-for F in *.LISP ; do cp $F $EMU/$(xform $F) ; done
+$XCC/bin/ld65 -o $L -t $TGT tinylisp-cc65-flt.o -L $FLT/flt flt-$TGT.lib -L $XCC/lib $TGT.lib
 
 # Clean up
 rm *-flt.c *.s *.o
 
+# Move and copy to the emulator
+mv $L $EMU/
+for F in *.LISP ; do cp $F $EMU/$(xform $F) ; done
+
 # Run the emulator
 cd $EMU
-./x16emu -scale 2 -mhz 8 -prg $(xform $C.$EXT) -run
+./x16emu -scale 2 -mhz 8 -prg $L -run

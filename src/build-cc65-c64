@@ -4,29 +4,50 @@
 # XCC=«path-to-cc65-repo»
 # FLT=«path-to-FLT-repo»
 # DST=«path-to-destination»
+# TGT=«target»
+# EXT=«target-executable-extension»
+# OUT=«target-filename-case-upper-or-lower»
 
 XCC=~/Documents/development/cc65
 FLT=~/Documents/development/FLT
 DST=./c64
+TGT=c64
+EXT=prg
+OUT=lower
 
-# Build lisp.prg / use -DTRACE to enable tracing
-php $FLT/flt/flt.php -i tinylisp-cc65.c -o tinylisp-cc65-flt.c -x "-D__C64__ -DNOTRACE -I $XCC/include -I $FLT/flt"
-$XCC/bin/cc65 -t c64 -D__C64__ -DNOTRACE -I $XCC/include tinylisp-cc65-flt.c
-$XCC/bin/ca65 -t c64 tinylisp-cc65-flt.s
-$XCC/bin/ld65 -o lisp.prg -t c64 tinylisp-cc65-flt.o -L $FLT/flt flt.lib -L $XCC/lib c64.lib
+xform() {
+    local x="$1"
+
+    if [[ $OUT == upper ]]; then
+        echo "${x^^}"
+    else
+        echo "${x,,}"
+    fi
+}
+
+# Build lisp / use -DTRACE to enable tracing
+C=lisp
+php $FLT/flt/flt.php -i tinylisp-cc65.c -o tinylisp-cc65-flt.c -x "-D__${TGT^^}__ -DNOTRACE -I $XCC/include -I $FLT/flt"
+$XCC/bin/cc65 -t $TGT -D__${TGT^^}__ -DNOTRACE -I $XCC/include tinylisp-cc65-flt.c
+$XCC/bin/ca65 -t $TGT tinylisp-cc65-flt.s
+$XCC/bin/ld65 -o $(xform $C.$EXT) -t $TGT tinylisp-cc65-flt.o -L $FLT/flt flt-$TGT.lib -L $XCC/lib $TGT.lib
 
 # Create the destination if not present
 mkdir -p $DST
 
 # Move and copy to the destination
-mv lisp.prg $DST/
-for F in *.LISP ; do cp $F $DST/${F,,} ; done
+mv $(xform $C.$EXT) $DST/
+for F in *.LISP
+do
+	cp $F $DST/$(xform $F)
+done
 
 # Clean up
 rm *-flt.c *.s *.o
 
 # Create a D64 image if c1541 is available
-if command -v c1541 >/dev/null; then
+if command -v c1541 >/dev/null
+then
 	cd $DST
-	c1541 -format lisp,2a d64 lisp.d64 -attach lisp.d64 8 -write lisp.prg $(printf -- "-write %s " *.lisp)
+	c1541 -format lisp,2a d64 lisp.d64 -attach lisp.d64 8 -write $(xform lisp.$EXT) $(printf -- "-write %s " *.lisp)
 fi

@@ -69,16 +69,16 @@ bye!
 
 You’ll need [cc65](https://github.com/cc65/cc65), [FLT](https://github.com/Russell-S-Harper/FLT), and your preferred C64 emulator (or actual hardware). Check the repositories if there are any other dependencies and be sure to adhere to the licensing terms to ensure proper usage and compliance.
 
-Edit the `«flt-repo»/flt/build-cc65` script to point `XCC` to where the ***cc65*** repo is located, revise `TGT` to `c64`, and run the script to build the `flt.lib` library.
+Edit the `«flt-repo»/flt/build-cc65` script to point `XCC` to where the ***cc65*** repo is located and run the script to build the `flt-c64.lib` library.
 
-Then edit the `«tinylisp-cc65-repo»/src/build-cc65-c64` script to point `XCC` and `FLT` to where the ***cc65*** and ***FLT*** repositories are located, and edit `DST` to point to a destination of your choice. Run the script to create `lisp.prg`. The script will also copy the program and Lisp files to the destination.
+Then edit the `«tinylisp-cc65-repo»/src/build-cc65-c64` script to point `XCC` and `FLT` to where the ***cc65*** and ***FLT*** repositories are located, and edit `DST` to point to a destination of your choice. Run the script to create `lisp.prg`. The script will copy the program and Lisp files to the destination. If you have `c1541` installed, it will also create a `D64` image. 
 
 
 ### For CX16
 
 You’ll need [cc65](https://github.com/cc65/cc65), [FLT](https://github.com/Russell-S-Harper/FLT), and [x16emu](https://github.com/x16community/x16-emulator). Check these repositories if there are any other dependencies and be sure to adhere to the licensing terms to ensure proper usage and compliance.
 
-Edit the `«flt-repo»/flt/build-cc65` script to point `XCC` to where the ***cc65*** repo is located, revise `TGT` to `cx16`, and run the script to build the `flt.lib` library.
+Edit the `«flt-repo»/flt/build-cc65` script to point `XCC` to where the ***cc65*** repo is located and run the script to build the `flt-cx16.lib` library.
 
 Then edit the `«tinylisp-cc65-repo»/src/build-cc65-cx16` script to point `XCC`, `FLT`, and `EMU` to where the ***cc65***, ***FLT*** and ***x16emu*** repositories are located, and run the script to create `LISP.PRG`. The script will copy the program and Lisp files to the emulator.
 

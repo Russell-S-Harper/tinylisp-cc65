@@ -18,7 +18,7 @@ OUT=lower
 xform() {
     local x="$1"
 
-    if [[ $OUT == upper ]]; then
+    if [[ $OUT == upper ]] ; then
         echo "${x^^}"
     else
         echo "${x,,}"
@@ -37,17 +37,13 @@ mkdir -p $DST
 
 # Move and copy to the destination
 mv $(xform $C.$EXT) $DST/
-for F in *.LISP
-do
-	cp $F $DST/$(xform $F)
-done
+for F in *.LISP ; do cp $F $DST/$(xform $F) ; done
 
 # Clean up
 rm *-flt.c *.s *.o
 
 # Create a D64 image if c1541 is available
-if command -v c1541 >/dev/null
-then
+if command -v c1541 >/dev/null ; then
 	cd $DST
 	c1541 -format lisp,2a d64 lisp.d64 -attach lisp.d64 8 -write $(xform lisp.$EXT) $(printf -- "-write %s " *.lisp)
 fi

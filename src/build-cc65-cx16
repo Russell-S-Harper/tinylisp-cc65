@@ -18,7 +18,7 @@ OUT=upper
 xform() {
     local x="$1"
 
-    if [[ $OUT == upper ]]; then
+    if [[ $OUT == upper ]] ; then
         echo "${x^^}"
     else
         echo "${x,,}"
@@ -34,10 +34,7 @@ $XCC/bin/ld65 -o $(xform $C.$EXT) -t $TGT tinylisp-cc65-flt.o -L $FLT/flt flt-$T
 
 # Move and copy to the emulator
 mv $(xform $C.$EXT) $EMU/
-for F in *.LISP
-do
-	cp $F $EMU/$(xform $F)
-done
+for F in *.LISP ; do cp $F $EMU/$(xform $F) ; done
 
 # Clean up
 rm *-flt.c *.s *.o

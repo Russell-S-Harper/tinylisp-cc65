@@ -23,6 +23,7 @@
 #include <stdio.h>
 #include <inttypes.h>
 #include <string.h>
+#include <ctype.h>
 #include <math.h>
 
 #define I    uint32_t
@@ -31,17 +32,23 @@
 #define A    ((char *)cell)
 #define BUF  60                /* Buffer to accomodate maximum "L" in characters and a bit extra */
 
+/* Define N */
 #if defined(__CX16__)
 #define N    2000              /* CX16 can use high memory */
 #define HMEM ((L *)0xA000)     /* CX16-specific memory definitions */
 #define CTRL ((uint8_t *)0x00)
-#define BANK 0x01
-#elif defined(TRACE)
+#define BANK 0x3F
+#elif defined(_TRACE)
 #define N    500               /* Tracing takes up a lot of memory so use a smaller N to allow room */
-#elif defined(__C64__)
-#define N    1250              /* Use as much free memory as possible */
 #else
-#define N    1000              /* N * sizeof(L) should not exceed 1MB less 1 "L", i.e float: 262143 / double: 131071 */
+#define N    1250              /* Use as much free memory as possible */
+#endif
+
+/* Define EXT */
+#if defined(__ATARI__)
+#define EXT  "lsp"
+#else
+#define EXT "lisp"
 #endif
 
 #ifdef  TRACE
@@ -162,7 +169,7 @@ L f_load(L t, L *e) {
     x = evarg(&t, e, &a);
     if (T(x) != ATOM)
         return err;
-    snprintf(f, FILENAME_MAX, "%s.lisp", A + ord(x));
+    snprintf(f, FILENAME_MAX, "%s." EXT, A + ord(x));
     /* Swap the input with the new file, easy-peasy! */
     if (i = fopen(f, "r"))
         s_input = i;
@@ -276,7 +283,7 @@ void look() {
         see = ' ';
     }
 }
-I seeing(char c) { T1c(c); return c == ' ' ? see > 0 && see <= c : see == c; }
+I seeing(char c) { T1c(c); return c == ' ' ? isspace(see) : see == c; }
 char get() { char c; T0(); c = see; look(); return c; }
 char scan() {
     int i;

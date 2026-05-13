@@ -38,7 +38,7 @@
 #define HMEM ((L *)0xA000)     /* CX16-specific memory definitions */
 #define CTRL ((uint8_t *)0x00)
 #define BANK 0x3F
-#elif defined(_TRACE)
+#elif defined(TRACE)
 #define N    500               /* Tracing takes up a lot of memory so use a smaller N to allow room */
 #else
 #define N    1250              /* Use as much free memory as possible */

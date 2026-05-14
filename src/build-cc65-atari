@@ -15,31 +15,11 @@ TGT=atari
 EXT=xex
 OUT=upper
 
-xform() {
-    local x="$1"
+# Build the executable $L
+source ./build-cc65-common
 
-    if [[ $OUT == upper ]] ; then
-        echo "${x^^}"
-    else
-        echo "${x,,}"
-    fi
-}
-
-# Build lisp / use -DTRACE to enable tracing
-C=lisp
-L=$(xform $C.$EXT)
-php $FLT/flt/flt.php -i tinylisp-cc65.c -o tinylisp-cc65-flt.c -x "-D__${TGT^^}__ -DNOTRACE -I $XCC/include -I $FLT/flt"
-$XCC/bin/cc65 -t $TGT -D__${TGT^^}__ -DNOTRACE -I $XCC/include tinylisp-cc65-flt.c
-$XCC/bin/ca65 -t $TGT tinylisp-cc65-flt.s
-$XCC/bin/ld65 -o $L -t $TGT tinylisp-cc65-flt.o -L $FLT/flt flt-$TGT.lib -L $XCC/lib $TGT.lib
-
-# Clean up
-rm *-flt.c *.s *.o
-
-# Create the destination if not present
-mkdir -p $DST
-
-# Move and copy to the destination. Note file names in uppercase, but content in lowercase, and special LF!
+# Move and copy to the destination
+# Note file names in uppercase, but contents in lowercase, and special LF of 0x9B!
 mv $L $DST/
 for F in *.LISP ; do tr '[A-Z]' '[a-z]' < $F | tr '\n' '\233' > $DST/$(xform $F) ; done
 

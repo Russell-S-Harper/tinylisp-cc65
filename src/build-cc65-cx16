@@ -3,43 +3,25 @@
 # Set as required
 # XCC=«path-to-cc65-repo»
 # FLT=«path-to-FLT-repo»
-# EMU=«path-to-x16-emulator»
+# DST=«path-to-destination»
 # TGT=«target»
 # EXT=«target-executable-extension»
 # OUT=«target-filename-case-upper-or-lower»
 
 XCC=~/Documents/development/cc65
 FLT=~/Documents/development/FLT
-EMU=~/Documents/development/x16emu_linux-x86_64-r49
+DST=~/Documents/development/x16emu_linux-x86_64-r49
 TGT=cx16
 EXT=prg
 OUT=upper
 
-xform() {
-    local x="$1"
+# Build the executable $L
+source ./build-cc65-common
 
-    if [[ $OUT == upper ]] ; then
-        echo "${x^^}"
-    else
-        echo "${x,,}"
-    fi
-}
-
-# Build lisp / use -DTRACE to enable tracing
-C=lisp
-L=$(xform $C.$EXT)
-php $FLT/flt/flt.php -i tinylisp-cc65.c -o tinylisp-cc65-flt.c -x "-D__${TGT^^}__ -DNOTRACE -I $XCC/include -I $FLT/flt"
-$XCC/bin/cc65 -t $TGT -D__${TGT^^}__ -DNOTRACE -I $XCC/include tinylisp-cc65-flt.c
-$XCC/bin/ca65 -t $TGT tinylisp-cc65-flt.s
-$XCC/bin/ld65 -o $L -t $TGT tinylisp-cc65-flt.o -L $FLT/flt flt-$TGT.lib -L $XCC/lib $TGT.lib
-
-# Clean up
-rm *-flt.c *.s *.o
-
-# Move and copy to the emulator
-mv $L $EMU/
-for F in *.LISP ; do cp $F $EMU/$(xform $F) ; done
+# Move and copy to the destination
+mv $L $DST/
+for F in *.LISP ; do cp $F $DST/$(xform $F) ; done
 
 # Run the emulator
-cd $EMU
-./x16emu -scale 2 -mhz 8 -prg $L -run
+cd $DST
+./x16emu -scale 2 -mhz 16 -prg $L -run

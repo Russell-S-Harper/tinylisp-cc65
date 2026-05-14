@@ -4,7 +4,7 @@
      Contact: russell.s.harper@gmail.com
 */
 
-/* tinylisp-cc65.c to compile under cc65 and run on 8-bit platforms by Russell Harper 2026 adapted from:
+/* tinylisp-cc65.c to compile under cc65 and run on 8-bit platforms by Russell Harper 2026 adapted from
  * tinylisp-float-opt.c with single float precision NaN boxing (optimized version) by Robert A. van Engelen 2022
  *
  * Given memory restrictions in 8-bit platforms, added a few features to make development easier:
@@ -26,6 +26,7 @@
 #include <ctype.h>
 #include <math.h>
 
+/* tinylisp definitions */
 #define I    uint32_t
 #define L    float
 #define T(x) (*(I*)&x >> 20)
@@ -33,25 +34,35 @@
 #define BUF  60                /* Buffer to accomodate maximum "L" in characters and a bit extra */
 
 /* Define N */
-#if defined(__CX16__)
+#ifdef  __CX16__
 #define N    2000              /* CX16 can use high memory */
 #define HMEM ((L *)0xA000)     /* CX16-specific memory definitions */
 #define CTRL ((uint8_t *)0x00)
-#define BANK 0x3F
-#elif defined(TRACE)
-#define N    500               /* Tracing takes up a lot of memory so use a smaller N to allow room */
+#define BANK '>'
 #else
-#define N    1250              /* Use as much free memory as possible */
+#define N    1250              /* Use as much free memory as possible, typical for 48K computers */
 #endif
 
 /* Define EXT */
-#if defined(__ATARI__)
+#ifdef  __ATARI__
 #define EXT  "lsp"
 #else
-#define EXT "lisp"
+#define EXT  "lisp"
 #endif
 
 #ifdef  TRACE
+
+/* Redfine N if required */
+#ifndef __CX16__               /* CX16 can keep the same size heap/stack */
+#undef  N
+#define N    500               /* Tracing takes up a lot of memory so use a smaller N to allow room */
+#endif
+
+#ifdef  __ATARI__
+#define LOG  "h1:trace.log"
+#else
+#define LOG  "trace.log"
+#endif
 
 static FILE *s_trace;
 
@@ -337,7 +348,7 @@ int main() {
     I i;
     L t;
 #ifdef TRACE
-    s_trace = fopen("trace.log", "w");
+    s_trace = fopen(LOG, "w");
 #endif
     T0();
     s_input = stdin;

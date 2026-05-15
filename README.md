@@ -63,24 +63,25 @@ bye!
 
 ```
 
-## Building tinylisp-cc65…
+## Building tinylisp-cc65
 
-### For C64
+You’ll need [cc65](https://github.com/cc65/cc65), [FLT](https://github.com/Russell-S-Harper/FLT), and your preferred emulator (or actual hardware). Check the repositories if there are any other dependencies and be sure to adhere to the licensing terms to ensure proper usage and compliance.
 
-You’ll need [cc65](https://github.com/cc65/cc65), [FLT](https://github.com/Russell-S-Harper/FLT), and your preferred C64 emulator (or actual hardware). Check the repositories if there are any other dependencies and be sure to adhere to the licensing terms to ensure proper usage and compliance.
+Edit the `«flt-repo»/flt/build-cc65` script to point `XCC` to where the ***cc65*** repo is located and run the script to build the libraries, one for each platform.
 
-Edit the `«flt-repo»/flt/build-cc65` script to point `XCC` to where the ***cc65*** repo is located and run the script to build the `flt-c64.lib` library.
+After the libraries are created, edit the `«tinylisp-cc65-repo»/src/build-cc65-«target»` script to point `XCC` and `FLT` to where the ***cc65*** and ***FLT*** repositories are located, and edit `DST` to point to a destination of your choice. Run the script to create the Lisp interpreter. The script will copy the interpreter and Lisp files to the destination, then run the emulator.
 
-Then edit the `«tinylisp-cc65-repo»/src/build-cc65-c64` script to point `XCC` and `FLT` to where the ***cc65*** and ***FLT*** repositories are located, and edit `DST` to point to a destination of your choice. Run the script to create `lisp.prg`. The script will copy the program and Lisp files to the destination. If you have `c1541` installed, it will also create a `D64` image. 
+The specifics for each platform:
 
+   | Platform      | Target    | Tested with Emulator                                   | Notes
+   |---------------|-----------|--------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+   | Apple II      | apple2    | -in progress-                                          |
+   | Apple IIe     | apple2enh | -in progress-                                          |
+   | Atari 800     | atari     | [atari800](https://atari800.github.io/)                | You’ll need to specify a device and number like `H1` to load, e.g. `(load 'h1:math)`, and because of the “8.3” filename format, for `CONSTANTS` use `(load 'h1:constnts)`.
+   | Commodore 64  | c64       | [vice-jz.x64](https://vice-emu.sourceforge.io)         | If you have `c1541` installed, it will also create a `D64` image. You may need to set up a peripheral drive or a disk image in VICE.
+   | Commander X16 | cx16      | [x16emu](https://github.com/x16community/x16-emulator) | 
 
-### For CX16
-
-You’ll need [cc65](https://github.com/cc65/cc65), [FLT](https://github.com/Russell-S-Harper/FLT), and [x16emu](https://github.com/x16community/x16-emulator). Check these repositories if there are any other dependencies and be sure to adhere to the licensing terms to ensure proper usage and compliance.
-
-Edit the `«flt-repo»/flt/build-cc65` script to point `XCC` to where the ***cc65*** repo is located and run the script to build the `flt-cx16.lib` library.
-
-Then edit the `«tinylisp-cc65-repo»/src/build-cc65-cx16` script to point `XCC`, `FLT`, and `EMU` to where the ***cc65***, ***FLT*** and ***x16emu*** repositories are located, and run the script to create `LISP.PRG`. The script will copy the program and Lisp files to the emulator.
+If you want to use a different emulator or actual hardware, ensure you revise the specific script for your target.
 
 ## License
 

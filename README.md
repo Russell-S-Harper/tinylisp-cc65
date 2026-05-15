@@ -73,13 +73,13 @@ After the libraries are created, edit the `«tinylisp-cc65-repo»/src/build-cc65
 
 The specifics for each platform:
 
-   | Platform      | Target    | Tested with Emulator                                   | Notes
-   |---------------|-----------|--------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-   | Apple II      | apple2    | -in progress-                                          |
-   | Apple IIe     | apple2enh | -in progress-                                          |
-   | Atari 800     | atari     | [atari800](https://atari800.github.io/)                | You’ll need to specify a device and number like `H1` to load, e.g. `(load 'h1:math)`, and because of the “8.3” filename format, for `CONSTANTS` use `(load 'h1:constnts)`.
-   | Commodore 64  | c64       | [vice-jz.x64](https://vice-emu.sourceforge.io)         | If you have `c1541` installed, it will also create a `D64` image. You may need to set up a peripheral drive or a disk image in VICE.
-   | Commander X16 | cx16      | [x16emu](https://github.com/x16community/x16-emulator) | 
+   | Target    | Tested with Emulator                                   | Notes
+   |-----------|--------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+   | apple2    | -in progress-                                          |
+   | apple2enh | -in progress-                                          |
+   | atari     | [atari800](https://atari800.github.io/)                | You’ll need to specify a device and number like `H1` to load, e.g. `(load 'h1:math)`, and because of the “8.3” filename format, for `CONSTANTS` use `(load 'h1:constnts)`.
+   | c64       | [vice-jz.x64](https://vice-emu.sourceforge.io)         | If you have `c1541` installed, it will also create a `D64` image. You may need to set up a peripheral drive or a disk image in VICE.
+   | cx16      | [x16emu](https://github.com/x16community/x16-emulator) | 
 
 If you want to use a different emulator or actual hardware, ensure you revise the specific script for your target.
 

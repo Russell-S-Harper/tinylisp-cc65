@@ -75,7 +75,6 @@ The specifics for each platform:
 
    | Target    | Tested with Emulator                                   | Notes
    |-----------|--------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-   | apple2    | -researching, may not be feasible-                     |
    | apple2enh | -in progress-                                          |
    | atari     | [atari800](https://atari800.github.io/)                | You’ll need to specify a device and number like `H1` to load, e.g. `(load 'h1:math)`, and because of the 8.3 filename format, for `CONSTANTS` use `(load 'h1:constnts)`.
    | c64       | [vice-jz.x64](https://vice-emu.sourceforge.io)         | If you have `c1541` installed, it will also create a `D64` image. You may need to set up a peripheral drive or a disk image in VICE.

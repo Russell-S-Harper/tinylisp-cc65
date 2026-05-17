@@ -26,10 +26,10 @@ for F in *.LISP ; do cp $F $DST/$(xform $F) ; done
 cd $DST
 if command -v c1541 >/dev/null ; then
 	# Build up the write commands
-	W="-write $L" ; for F in *.LISP ; do W="$W -write $(xform $F)" ; done
+	W="-write $L" ; for F in *.lisp ; do W="$W -write $F" ; done
 	# Create a D64 image in the destination
-	c1541 -format lisp,2a d64 lisp.d64 -attach lisp.d64 8 $W
+	c1541 -format lisp,2a d64 lisp.d64 -attach lisp.d64 8 $W >/dev/null 2>&1
 fi
 
 # Run the emulator
-vice-jz.x64 -silent 2> /dev/null
+vice-jz.x64 >/dev/null 2>&1

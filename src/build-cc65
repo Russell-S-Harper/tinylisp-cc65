@@ -1,0 +1,148 @@
+#!/bin/bash
+
+# Set as required
+# XCC=«path-to-cc65-repo»
+# FLT=«path-to-FLT-repo»
+
+XCC=~/Documents/development/cc65
+FLT=~/Documents/development/FLT
+
+xform() {
+	local x="$1"
+
+	if [[ $OUT == upper ]] ; then
+		echo "${x^^}"
+	else
+		echo "${x,,}"
+	fi
+}
+
+common() {
+	if [[ ! -f $FLT/flt/flt-$TGT.lib ]] ; then
+		echo "Build flt-$TGT.lib first!"
+		exit
+	fi
+
+	# Build lisp / use -DTRACE to enable tracing
+	C=lisp
+	L=$(xform $C.$EXT)
+	php $FLT/flt/flt.php -i tinylisp-cc65.c -o tinylisp-cc65-flt.c -x "-D__${TGT^^}__ -DNOTRACE -I $XCC/include -I $FLT/flt"
+	$XCC/bin/cc65 -t $TGT -D__${TGT^^}__ -DNOTRACE -I $XCC/include tinylisp-cc65-flt.c
+	$XCC/bin/ca65 -t $TGT tinylisp-cc65-flt.s
+	$XCC/bin/ld65 -o $L -t $TGT tinylisp-cc65-flt.o -L $FLT/flt flt-$TGT.lib -L $XCC/lib $TGT.lib
+
+	# Clean up
+	rm *-flt.c *.s *.o
+
+	# Create the destination if not present
+	mkdir -p $DST
+}
+
+apple2enh() {
+	# Set as required
+	# DST=«path-to-destination»
+	DST=./apple2enh
+
+	TGT=apple2enh
+	EXT=sys
+	OUT=upper
+
+	# Build the executable $L
+	common
+
+	# Move and copy to the destination
+	# Note file names in uppercase, but contents in lowercase, and LF to CR
+	mv $L $DST/
+	for F in *.LISP ; do tr '[A-Z]' '[a-z]' < $F | tr '\n' '\r' > $DST/$(xform $F) ; done
+
+	# The AppleWin emulator is a Windows application!
+	cd $DST
+	echo 'Copy these files into an Apple II ProDOS disk image:'
+	ls
+}
+
+atari() {
+	# Set as required
+	# DST=«path-to-destination»
+	DST=./atari
+
+	TGT=atari
+	EXT=xex
+	OUT=upper
+
+	# Build the executable $L
+	common
+
+	# Move and copy to the destination
+	# Note file names in uppercase, but contents in lowercase, and special LF of 0x9B!
+	mv $L $DST/
+	for F in *.LISP ; do tr '[A-Z]' '[a-z]' < $F | tr '\n' '\233' > $DST/$(xform $F) ; done
+
+	# Rename the files to 8.3 format, for now just need to remove vowels from right to left
+	cd $DST
+	V=$(xform AEIOU)
+	for i in {1..3} ; do rename -f "s/(\w*)[$V]+([^$V]*)\.(.*)/\1\2.\3/g" ?????????*.* ; done
+	for i in {1..2} ; do rename -f "s/(.*)\.(\w*)[$V]+([^$V]*)/\1.\2\3/g" *.????* ; done
+
+	# Run the emulator
+	nohup atari800 -atari -800-rev altirra -H1 ./ -run $L >/dev/null 2>&1 &
+}
+
+c64() {
+	# Set as required
+	# DST=«path-to-destination»
+	DST=./c64
+
+	TGT=c64
+	EXT=prg
+	OUT=lower
+
+	# Build the executable $L
+	common
+
+	# Move and copy to the destination
+	mv $L $DST/
+	for F in *.LISP ; do cp $F $DST/$(xform $F) ; done
+	
+	# Create a D64 image if c1541 is available
+	cd $DST
+	if command -v c1541 >/dev/null ; then
+		# Build up the write commands
+		W="-write $L" ; for F in *.lisp ; do W="$W -write $F" ; done
+		# Create a D64 image in the destination
+		c1541 -format lisp,2a d64 lisp.d64 -attach lisp.d64 8 $W >/dev/null 2>&1
+	fi
+
+	# Run the emulator
+	nohup vice-jz.x64 >/dev/null 2>&1 &
+}
+
+cx16() {
+	# Set as required
+	# DST=«path-to-destination»
+	DST=~/Documents/development/x16emu_linux-x86_64-r49
+
+	TGT=cx16
+	EXT=prg
+	OUT=upper
+
+	# Build the executable $L
+	common
+
+	# Move and copy to the destination
+	mv $L $DST/
+	for F in *.LISP ; do cp $F $DST/$(xform $F) ; done
+
+	# Run the emulator
+	cd $DST
+	nohup ./x16emu -scale 2 -mhz 16 -prg $L -run >/dev/null 2>&1 &
+}
+
+echo -e "\nChoose target:\n\n\t1) apple2enh\n\t2) atari\n\t3) c64\n\t4) cx16\n" ; read -p "Choice: " choice
+case $choice in
+	1) apple2enh ;;
+	2) atari ;;
+	3) c64 ;;
+	4) cx16 ;;
+	*) exit ;;
+esac

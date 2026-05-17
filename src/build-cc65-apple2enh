@@ -1,0 +1,30 @@
+#!/bin/bash
+
+# Set as required
+# XCC=«path-to-cc65-repo»
+# FLT=«path-to-FLT-repo»
+# DST=«path-to-destination»
+# TGT=«target»
+# EXT=«target-executable-extension»
+# OUT=«target-filename-case-upper-or-lower»
+
+XCC=~/Documents/development/cc65
+FLT=~/Documents/development/FLT
+DST=./apple2enh
+TGT=apple2enh
+EXT=sys
+OUT=upper
+
+# Build the executable $L
+source ./build-cc65-common
+
+# Move and copy to the destination
+# Note file names in uppercase, but contents in lowercase, and LF to CR
+mv $L $DST/
+for F in *.LISP ; do tr '[A-Z]' '[a-z]' < $F | tr '\n' '\r' > $DST/$(xform $F) ; done
+
+# The AppleWin emulator is a Windows application!
+cd $DST
+echo 'Copy these files into an Apple II ProDOS disk image:'
+ls
+

@@ -30,4 +30,4 @@ for i in {1..3} ; do rename -f "s/(\w*)[$V]+([^$V]*)\.(.*)/\1\2.\3/g" ?????????*
 for i in {1..2} ; do rename -f "s/(.*)\.(\w*)[$V]+([^$V]*)/\1.\2\3/g" *.????* ; done
 
 # Run the emulator
-atari800 -atari -800-rev altirra -H1 ./ -run $L
+atari800 -atari -800-rev altirra -H1 ./ -run $L >/dev/null 2>&1

@@ -36,6 +36,9 @@ common() {
 
 	# Create the destination if not present
 	mkdir -p $DST
+
+	# Move to the destination
+	mv $L $DST/
 }
 
 apple2enh() {
@@ -47,12 +50,11 @@ apple2enh() {
 	EXT=sys
 	OUT=upper
 
-	# Build the executable $L
+	# Build the executable $L and move it to the destination
 	common
 
-	# Move and copy to the destination
+	# Copy the sources to the destination
 	# Note file names in uppercase, but contents in lowercase, and LF to CR
-	mv $L $DST/
 	for F in *.LISP ; do tr '[A-Z]' '[a-z]' < $F | tr '\n' '\r' > $DST/$(xform $F) ; done
 
 	# The AppleWin emulator is a Windows application!
@@ -70,12 +72,11 @@ atari() {
 	EXT=xex
 	OUT=upper
 
-	# Build the executable $L
+	# Build the executable $L and move it to the destination
 	common
 
-	# Move and copy to the destination
+	# Copy the sources to the destination
 	# Note file names in uppercase, but contents in lowercase, and special LF of 0x9B!
-	mv $L $DST/
 	for F in *.LISP ; do tr '[A-Z]' '[a-z]' < $F | tr '\n' '\233' > $DST/$(xform $F) ; done
 
 	# Rename the files to 8.3 format, for now just need to remove vowels from right to left
@@ -97,11 +98,10 @@ c64() {
 	EXT=prg
 	OUT=lower
 
-	# Build the executable $L
+	# Build the executable $L and move it to the destination
 	common
 
-	# Move and copy to the destination
-	mv $L $DST/
+	# Copy the sources to the destination
 	for F in *.LISP ; do cp $F $DST/$(xform $F) ; done
 	
 	# Create a D64 image if c1541 is available
@@ -126,11 +126,10 @@ cx16() {
 	EXT=prg
 	OUT=upper
 
-	# Build the executable $L
+	# Build the executable $L and move it to the destination
 	common
 
-	# Move and copy to the destination
-	mv $L $DST/
+	# Copy the sources to the destination
 	for F in *.LISP ; do cp $F $DST/$(xform $F) ; done
 
 	# Run the emulator

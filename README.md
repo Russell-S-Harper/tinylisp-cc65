@@ -4,11 +4,11 @@ tinylisp-cc65 is a port of Robert van Engelen’s tinylisp to compile under cc65
 
 ## About
 
-The source is `tinylisp-float-opt.c` in [Robert van Engelen’s tinylisp](https://github.com/Robert-van-Engelen/tinylisp) to which I added some additional features to accommodate 8-bit environments:
+The source is `tinylisp-float-opt.c` in [Robert van Engelen’s tinylisp](https://github.com/Robert-van-Engelen/tinylisp) to which I added some additional features to accommodate 8-bit platforms:
 
 - optional tracing for debugging purposes (compile with -DTRACE)
 - `(print arg1 arg2 ...)` print arguments
-- `(load file)` load and evaluate `file.lisp`, e.g. `(load 'common)` to load `common.lisp`
+- `(load 'file)` load and evaluate `file.lisp`, e.g. `(load 'common)` to load and evaluate `common.lisp`
 - `(incr var1 var2 ...)` increment variables, mutates in place
 - `(decr var1 var2 ...)` decrement variables, mutates in place
 - `(while condition code1 code2 ...)` non-recursive loop to run code
@@ -18,7 +18,7 @@ I didn’t realize until later that the “extras” in Robert van Engelen’s t
 
 One issue found during porting was that programs compiled with GNU `gcc` have their function arguments evaluated from left-to-right, whereas with `cc65` they are evaluated from right-to-left. Given the code has a lot of global variables, to be safe, the code was revised to ensure the same order of evaluation.
 
-The build process is complex, so if you want to try it out beforehand you can copy the PRG and sample Lisp files from my [Google Drive](
+The build process is complex, so if you want to try it out beforehand you can copy the program and sample Lisp files from my [Google Drive](
 https://drive.google.com/drive/folders/1QpG756L5m1HsCHO-QX4mNadew2sTPWxh?usp=sharing).
 
 ## Samples

@@ -25,7 +25,7 @@ https://drive.google.com/drive/folders/1QpG756L5m1HsCHO-QX4mNadew2sTPWxh?usp=sha
 
 Some sample source files are provided, note that the file names or contents may be in upper or lower case depending on the target:
 
-- `CONSTANTS.LISP` – some numerical constants, e.g. `(* pi (* 10 10))` → `314.159`
+- `CONSTANTS.LISP` – some numerical constants, e.g. `(* pi 10 10)` → `314.159`
 - `MATH.LISP` – some mathematical functions, e.g. `(gcd 231 847)` → `77`
 - `FACTOR.LISP` – factor a number, e.g. `(factor 39767)` → `(23 19 13 7)`
 - `SORT.LISP` – sort a list, e.g. `(sort '(12 8.9 -1000 2.3 -9) <)` → `(-1000 -9 2.3 8.9 12)`
@@ -74,10 +74,10 @@ After the libraries are created, edit the `«tinylisp-cc65-repo»/src/build-cc65
 Current status for each target:
 
    | Target    | Tested with Emulator                                   | Notes
-   |-----------|--------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+   |-----------|--------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
    | apple2enh | [AppleWin](https://github.com/AppleWin/AppleWin)       | Still under investigation. The main issue is outdated, incomplete, and sometimes contradictory documentation, especially regarding emulator, ProDOS, and file-transfer workflows.
    | atari     | [atari800](https://atari800.github.io/)                | You’ll need to specify a device and number like `H1` to load, e.g. `(load 'h1:math)`, and because of the 8.3 filename format, for `CONSTANTS` use `(load 'h1:constnts)`.
-   | c64       | [vice-jz.x64](https://vice-emu.sourceforge.io)         | If you have `c1541` installed, it will also create a `D64` image. You may need to set up a peripheral drive or a disk image in VICE.
+   | c64       | [vice-jz.x64](https://vice-emu.sourceforge.io)         | If you have `c1541` installed, the script will also create a `D64` image. You may need to set up a peripheral drive or a disk image in VICE. Once that is done, `LOAD "LISP.PRG",8` and `RUN`.
    | cx16      | [x16emu](https://github.com/x16community/x16-emulator) | Straightforward integration and file handling during testing.
 
 If you want to use a different emulator or actual hardware, ensure you revise the specific function for your target in `«tinylisp-cc65-repo»/src/build-cc65`.
